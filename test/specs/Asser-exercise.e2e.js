@@ -1,35 +1,45 @@
+
 import {username, password, userFullName} from '../fixtures.js'
 
-describe('Login Page - excercise 4', () => {
+describe('Login And Applications Page', () => {
 
-    //toto musí běžet před každým testem
     beforeEach(() => {
         browser.reloadSession();
         browser.url('/prihlaseni');
     });
-//1. Test, který ověří defaultní stav přihlašovací stránky a vyhledávače
-//○ Přihlašovací políčka jsou “enabled” a v defaultním stavu v nich není nic zadáno
-//○ Přihlašovací tlačítko je “enabled” a obsahuje správný text
+
     it('should show login page', () => {
 
+        // 1. Políčko a tlačítka pro přihlášení jsou viditelná
         const emailField = $('#email');
-        expect(emailField).toBeDisplayed();
-        expect(emailField).toBeEnabled();
-
+        expect(emailField.toBeDisplayed());
+        expect(emailField.ToBeEnabled());
+        
+        // 1. Políčko a tlačítka pro přihlášení jsou viditelná
         const passwordField = $('#password');
-        expect(passwordField).toBeDisplayed();
-        expect(passwordField).toBeEnabled();
+        expect(passwordField.toBeDisplayed());
+        expect(passwordField.toBeEnabled());
 
+        // 2. Tlačítko pro přihlášení obsahuje správný text
         const loginButton = $('.btn-primary');
         expect(loginButton.getText()).toEqual('Přihlásit');
+
     });
-//2.Test, který ověří že po vyplnění přihlašovacích údajů je uživatel přihlášen
+
+        // 3. Dobrovolné: ověřte že odkaz na zapomenuté heslo odkazuje na správnou stránku,OVĚŘIT U MONČI
+       // const odkaz = $('form').$('a').getAttribute('href');
+       // expect(odkaz).toHaveUrl('https:// https://czechitas-luna.herokuapp.com/prihlaseni/zapomenute-heslo');
+
+        //Monča SPRÁVNÉ řešení
+        // const odkaz = $('form').$('a').getAttribute('href');
+        // expect(odkaz).toEqual(browser.options.baseUrl + '/zapomenute-heslo')
 
     it('should login with valid credentials', () => {
+        
         const emailField = $('#email')
         const passwordField = $('#password');
         const loginButton = $('.btn-primary');
-
+       
         emailField.setValue(username);
         passwordField.setValue(password);
         loginButton.click();
@@ -37,7 +47,8 @@ describe('Login Page - excercise 4', () => {
         const userNameDropdown = $('.navbar-right').$('[data-toggle="dropdown"]');
         expect(userNameDropdown.getText()).toEqual(userFullName);
     });
-    //3. Test, který ověří, že se uživatel může odhlásit
+
+ //3. Test, který ověří, že se uživatel může odhlásit
 //○ Uživatel se přihlásí a ověří, že je přihlášen
     it('should logout', () => {
         const emailField = $('#email')
@@ -45,9 +56,9 @@ describe('Login Page - excercise 4', () => {
         const loginButton = $('.btn-primary');
 
         emailField.setValue(username);
-        passwordField.setValue(password);
+        asswordField.setValue(password);
         loginButton.click();
-        
+    
         const userNameDropdown = $('.navbar-right').$('[data-toggle="dropdown"]');
         expect(userNameDropdown.getText()).toEqual(userFullName);
 //○ Uživatel se odhlásí a ověří, že je odhlášen
@@ -61,19 +72,12 @@ describe('Login Page - excercise 4', () => {
         expect(emailField).toBeDisplayed();
         expect(passwordField).toBeDisplayed();
         expect(loginButton).toBeDisplayed();
-    });
 });
-/*4. Test, který přejde na stránku Přihlášky a ověří, že uživatel vidí správné přihlášky
-○ Na stránce vidí nadpis Přihlášky
-○ Všechny položky obsahují
-i. jméno účastníka
-ii. kategorii kurzu
-iii. datum konání
-iv. cenu
-○ Kolik je řádek v tabulce je nám v tuto chvíli jedno, ale bylo by vhodná
-zkontrolovat, že na stránce je alespoň jedna přihláška
-*/
-describe('Applications Page - excercise 4', () => {
+});
+
+//4. Test, který přejde na stránku Přihlášky a ověří, že uživatel vidí správné přihlášky
+        // přechod na stránku s kurzy
+describe("Applications Page - excercise 4", () => {
 
     beforeEach(() => {
         browser.reloadSession();
@@ -83,10 +87,16 @@ describe('Applications Page - excercise 4', () => {
         $('.btn-primary').click();
         $('=Přihlášky').click();
     });
-    
-//Test, který přejde na stránku Přihlášky a ověří, že uživatel vidí správné přihlášky
-    it('should list all applications', () => {    
-        const rows = $('.dataTable').$('tbody').$$('tr');
+
+        /* 4. Obsahuje správný počet přihlášek/5. Každá přihláška obsahuje:
+        a. jméno účastníka
+        b. kategorii kurzu
+        c. datum konání
+        d. cenu
+        Tip: k assertaci textového obsahu podle nějakého vzoru můžete použít regulární výrazy a metodu toMatch*/
+
+    it("Should list all applications", () => {
+        const rows = $('.dataTable').$('tbody').$$('tr')
         expect(rows).toBeElementsArrayOfSize(4);
         rows.forEach(row => {
             const cols = row.$$('td');
@@ -96,11 +106,10 @@ describe('Applications Page - excercise 4', () => {
             expect(cols[3].getText()).toMatch(/\d{1,3}(| \d{0,3}) Kč/);
         });
     });
-/* 5. Test, který ověří funkci vyhledávání v tabulce přihlášek
-○ Když do vyhledávání zadám nějaké klíčové slovo, dostanu k němu
-relevantní přihlášky
-○ Formát zobrazení přihlášek je nám v tuto chvíli jedno */
-    it('should filter in applications', () => {
+
+
+        // Bonus - filtrování tabulky
+    it("Should filter all applictons", () => { 
         const searchText = 'Novák';
         $('input[type="search"]').setValue(searchText);
         const filteredRows = $('.dataTable').$('tbody').$$('tr');
@@ -109,6 +118,7 @@ relevantní přihlášky
             const cols = row.$$('td');
             expect(cols[0]).toHaveTextContaining(searchText);
         });
-    });
 
+    });
+    
 });

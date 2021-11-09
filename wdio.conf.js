@@ -33,7 +33,7 @@ exports.config = {
     }],
     logLevel: 'warn',
     bail: 0,
-    baseUrl: 'ADRESA TESTOVANE APLIKACE',
+    baseUrl: 'https://czechitas-luna.herokuapp.com/',
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,

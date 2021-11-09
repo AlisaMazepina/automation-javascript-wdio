@@ -40,11 +40,13 @@ describe('Login And Applications Page', () => {
         const rows = $('.dataTable').$('tbody').$$('tr')
         expect(rows).toBeElementsArrayOfSize(4);
         rows.forEach(row => {
-            const cols = row.$$('td');
-            expect(cols[0].getText()).toMatch(/[a-zA-Z]{3,}/);
-            expect(cols[1].getText()).toMatch(/(Python|JavaScript|Automatizované testování)/);
-            expect(cols[2].getText()).toMatch(/(\d{2}.\d{2}.\d{4}|\d{2}.\d{2}. - \d{2}.\d{2}.\d{4})/);
-            expect(cols[3].getText()).toMatch(/\d{1,3}(| \d{0,3}) Kč/);
+            const cols = row.$$('td');//najdi mi sloupec
+            //regulární výraz-síto/nástroj/, řekmi zda ten string odpovída tomuto výrazu
+
+            expect(cols[0].getText()).toMatch(/[a-zA-Z]{3,}/);//všechny výrazy - řetězce s tři a více výrazy = true
+            expect(cols[1].getText()).toMatch(/(Python|JavaScript|Automatizované testování)/); //tečky jsou znaky
+            expect(cols[2].getText()).toMatch(/(\d{2}.\d{2}.\d{4}|\d{2}.\d{2}. - \d{2}.\d{2}.\d{4})/);//datum
+            expect(cols[3].getText()).toMatch(/\d{1,3}(| \d{0,3}) Kč/);//funguje na tisíce
         });
 
         // Bonus - filtrování tabulky

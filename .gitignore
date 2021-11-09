@@ -1,6 +1,7 @@
 ./reports
 ./reports/*
 ./screenshots/*
+./**/.DS_Store
 
 # Logs
 logs

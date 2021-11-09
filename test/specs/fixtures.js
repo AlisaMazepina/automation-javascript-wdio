@@ -1,3 +1,3 @@
-export const username = 'EMAIL';
-export const password = 'PASSWORD!';
-export const userFullName = 'NAME';
+export const username = 'Lenka123@gmail.com';
+export const password = 'Lenka123!';
+export const userFullName = 'Lenka';
